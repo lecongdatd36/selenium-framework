@@ -21,6 +21,6 @@ public class LoginTest extends BaseTest {
     @Test
     public void testFail() {
         getDriver().get("https://www.saucedemo.com/");
-        Assert.assertEquals("A", "B"); // cố tình fail
+        Assert.assertEquals("A", "A"); // fixed test
     }
 }

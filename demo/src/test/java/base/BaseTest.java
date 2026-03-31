@@ -3,6 +3,7 @@ package base;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
@@ -41,7 +42,16 @@ public class BaseTest {
 
         if (browser.equalsIgnoreCase("chrome")) {
             WebDriverManager.chromedriver().setup();
-            webDriver = new ChromeDriver();
+
+            ChromeOptions options = new ChromeOptions();
+
+            // chạy headless cho CI
+            options.addArguments("--headless=new");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--window-size=1920,1080");
+
+            webDriver = new ChromeDriver(options);
         } else if (browser.equalsIgnoreCase("firefox")) {
             WebDriverManager.firefoxdriver().setup();
             webDriver = new FirefoxDriver();
@@ -66,18 +76,26 @@ public class BaseTest {
 
     @AfterMethod
     public void tearDown(ITestResult result) {
+        WebDriver currentDriver = getDriver();
 
-        if (result.getStatus() == ITestResult.FAILURE) {
-            takeScreenshot(result.getName());
+        if (result.getStatus() == ITestResult.FAILURE && currentDriver != null) {
+            takeScreenshot(result.getName(), currentDriver);
         }
 
-        if (getDriver() != null) {
-            getDriver().quit();
+        if (currentDriver != null) {
+            currentDriver.quit();
+            driver.remove();
         }
     }
 
-    private void takeScreenshot(String testName) {
-        File src = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
+    private void takeScreenshot(String testName, WebDriver currentDriver) {
+        File src;
+        try {
+            src = ((TakesScreenshot) currentDriver).getScreenshotAs(OutputType.FILE);
+        } catch (WebDriverException e) {
+            System.out.println("Khong the chup screenshot vi session da dong: " + e.getMessage());
+            return;
+        }
 
         String timestamp = LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
