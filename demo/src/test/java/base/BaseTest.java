@@ -20,7 +20,6 @@ public class BaseTest {
 
     private ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
-    @Parameters({ "browser", "env" })
     @BeforeMethod
     public void setUp(@Optional("chrome") String browser,
             @Optional("dev") String env) {

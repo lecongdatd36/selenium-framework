@@ -31,7 +31,7 @@ jobs:
 
       - name: Chạy Selenium Tests
         working-directory: demo
-        run: mvn clean test -Dbrowser=chrome -Denv=dev -Dsurefire.suiteXmlFiles=testng.xml -e
+        run: mvn clean test -e
         env:
           APP_PASSWORD: ${{ secrets.SAUCEDEMO_PASSWORD }}
 
