@@ -6,7 +6,11 @@ public class EnvReader {
         String username = System.getenv("APP_USERNAME");
 
         if (username == null || username.isBlank()) {
-            username = ConfigReader.getInstance().get("app.username");
+            throw new RuntimeException(
+                "❌ APP_USERNAME not found! \n" +
+                "Set env var: export APP_USERNAME='standard_user'\n" +
+                "Or on GitHub: Create secret SAUCEDEMO_USERNAME"
+            );
         }
 
         return username;
@@ -16,7 +20,11 @@ public class EnvReader {
         String password = System.getenv("APP_PASSWORD");
 
         if (password == null || password.isBlank()) {
-            password = ConfigReader.getInstance().get("app.password");
+            throw new RuntimeException(
+                "❌ APP_PASSWORD not found! \n" +
+                "Set env var: export APP_PASSWORD='secret_sauce'\n" +
+                "Or on GitHub: Create secret SAUCEDEMO_PASSWORD"
+            );
         }
 
         return password;
