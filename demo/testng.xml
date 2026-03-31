@@ -1,0 +1,40 @@
+<suite name="TestSuite" parallel="methods" thread-count="3">
+
+    <listeners>
+        <listener class-name="utils.RetryListener"/>
+    </listeners>
+
+   
+    <test name="Smoke Tests">
+        <parameter name="browser" value="chrome"/>
+
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
+
+        <classes>
+            <class name="tests.LoginDataDrivenTest"/>
+        </classes>
+    </test>
+
+
+    <test name="Regression Tests">
+        <parameter name="browser" value="chrome"/>
+
+        <groups>
+            <run>
+                <include name="regression"/>
+            </run>
+        </groups>
+
+        <classes>
+            <class name="tests.LoginDataDrivenTest"/>
+            <class name="tests.LoginTest"/>
+            <class name="tests.CheckoutTest"/>
+            <class name="tests.FlakySimulationTest"/>
+        </classes>
+    </test>
+
+</suite>
