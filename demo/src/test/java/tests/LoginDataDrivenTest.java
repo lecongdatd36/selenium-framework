@@ -18,10 +18,10 @@ public class LoginDataDrivenTest extends BaseTest implements ITest {
 
     // 🔥 Hàm xử lý password
     private String resolvePassword(String pass) {
-        if (pass == null || pass.isBlank()) {
-            return EnvReader.getPassword(); // lấy từ ENV
+        if (pass == null) {
+            return EnvReader.getPassword(); // Chỉ resolve nếu null (not specified in test data)
         }
-        return pass;
+        return pass; // Giữ nguyên "" hoặc giá trị từ test data
     }
 
     @Test(dataProvider = "smokeData", dataProviderClass = utils.DataProviderUtils.class, groups = "smoke")
