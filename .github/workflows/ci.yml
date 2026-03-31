@@ -26,6 +26,7 @@ jobs:
         uses: browser-actions/setup-chrome@v1
 
       - name: Chạy Selenium Tests
+        working-directory: demo   # ✅ thêm dòng này
         run: mvn clean test -Dbrowser=chrome -Denv=dev -Dsurefire.suiteXmlFiles=testng.xml
         env:
           APP_PASSWORD: ${{ secrets.SAUCEDEMO_PASSWORD }}
@@ -36,6 +37,6 @@ jobs:
         with:
           name: test-results
           path: |
-            target/surefire-reports/
-            target/screenshots/
+            demo/target/surefire-reports/   # ✅ sửa path
+            demo/target/screenshots/        # ✅ sửa path
           retention-days: 30
