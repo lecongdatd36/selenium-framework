@@ -1,37 +1,32 @@
-  [
-    {
-      "username": "standard_user",
-      "password": "secret_sauce",
-      "role": "user",
-      "expectSuccess": true,
-      "description": "Login success standard user"
-    },
-    {
-      "username": "locked_out_user",
-      "password": "secret_sauce",
-      "role": "locked",
-      "expectSuccess": false,
-      "description": "Login locked user"
-    },
-    {
-      "username": "standard_user",
-      "password": "wrong_pass",
-      "role": "user",
-      "expectSuccess": false,
-      "description": "Wrong password"
-    },
-    {
-      "username": "",
-      "password": "secret_sauce",
-      "role": "user",
-      "expectSuccess": false,
-      "description": "Empty username"
-    },
-    {
-      "username": "standard_user",
-      "password": "",
-      "role": "user",
-      "expectSuccess": false,
-      "description": "Empty password"
-    }
-  ]
+[
+  {
+    "username": "standard_user",
+    "password": "",
+    "expected": "inventory.html",
+    "description": "Login success standard user"
+  },
+  {
+    "username": "locked_out_user",
+    "password": "",
+    "expected": "locked out",
+    "description": "Login locked user"
+  },
+  {
+    "username": "standard_user",
+    "password": "wrong_pass",
+    "expected": "error",
+    "description": "Wrong password"
+  },
+  {
+    "username": "",
+    "password": "",
+    "expected": "Username is required",
+    "description": "Empty username"
+  },
+  {
+    "username": "standard_user",
+    "password": "",
+    "expected": "Password is required",
+    "description": "Empty password"
+  }
+]

@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        browser: [chrome, firefox]   # ✅ chạy song song 2 browser
+        browser: [chrome, firefox]   # chạy song song
 
     steps:
       - name: Checkout code
@@ -36,15 +36,16 @@ jobs:
 
       - name: Run Selenium Tests
         working-directory: demo
-        run: mvn clean test -Dbrowser=${{ matrix.browser }} -Denv=dev -Dsurefire.suiteXmlFiles=testng.xml
+        run: mvn clean test -Dbrowser=${{ matrix.browser }}
         env:
+          APP_USERNAME: ${{ secrets.SAUCEDEMO_USERNAME }}
           APP_PASSWORD: ${{ secrets.SAUCEDEMO_PASSWORD }}
 
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-${{ matrix.browser }}   
+          name: test-results-${{ matrix.browser }}
           path: |
             demo/target/surefire-reports/
             demo/target/screenshots/

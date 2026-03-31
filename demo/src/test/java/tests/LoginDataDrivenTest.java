@@ -5,6 +5,7 @@ import org.testng.Assert;
 import org.testng.ITest;
 import org.testng.annotations.Test;
 import pages.LoginPage;
+import utils.EnvReader;
 
 public class LoginDataDrivenTest extends BaseTest implements ITest {
 
@@ -15,12 +16,22 @@ public class LoginDataDrivenTest extends BaseTest implements ITest {
         return testName;
     }
 
+    // 🔥 Hàm xử lý password
+    private String resolvePassword(String pass) {
+        if (pass == null || pass.isBlank()) {
+            return EnvReader.getPassword(); // lấy từ ENV
+        }
+        return pass;
+    }
+
     @Test(dataProvider = "smokeData", dataProviderClass = utils.DataProviderUtils.class, groups = "smoke")
     public void testLoginSmoke(String user, String pass, String expected, String desc) {
         testName = desc;
 
+        String realPass = resolvePassword(pass);
+
         LoginPage loginPage = new LoginPage(getDriver());
-        boolean result = loginPage.login(user, pass)
+        boolean result = loginPage.login(user, realPass)
                 .isLoaded();
 
         Assert.assertTrue(result, desc);
@@ -30,16 +41,18 @@ public class LoginDataDrivenTest extends BaseTest implements ITest {
     public void testLoginAll(String user, String pass, String expected, String desc) {
         testName = desc;
 
+        String realPass = resolvePassword(pass);
+
         LoginPage loginPage = new LoginPage(getDriver());
 
         String normalizedExpected = expected == null ? "" : expected.trim().toLowerCase();
 
         if (normalizedExpected.contains("inventory")) {
-            boolean result = loginPage.login(user, pass)
+            boolean result = loginPage.login(user, realPass)
                     .isLoaded();
             Assert.assertTrue(result, desc);
         } else {
-            LoginPage failedPage = loginPage.loginExpectingFailure(user, pass);
+            LoginPage failedPage = loginPage.loginExpectingFailure(user, realPass);
             String error = failedPage.getErrorMessage();
 
             if ("error".equals(normalizedExpected)) {
