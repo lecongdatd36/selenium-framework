@@ -25,9 +25,13 @@ jobs:
       - name: Cài Chrome
         uses: browser-actions/setup-chrome@v1
 
+      # 👉 DEBUG (rất nên có)
+      - name: Kiểm tra cấu trúc project
+        run: ls -R
+
       - name: Chạy Selenium Tests
-        working-directory: demo   # ✅ thêm dòng này
-        run: mvn clean test -Dbrowser=chrome -Denv=dev -Dsurefire.suiteXmlFiles=testng.xml
+        working-directory: demo
+        run: mvn clean test -Dbrowser=chrome -Denv=dev -Dsurefire.suiteXmlFiles=testng.xml -e
         env:
           APP_PASSWORD: ${{ secrets.SAUCEDEMO_PASSWORD }}
 
@@ -37,6 +41,6 @@ jobs:
         with:
           name: test-results
           path: |
-            demo/target/surefire-reports/   # ✅ sửa path
-            demo/target/screenshots/        # ✅ sửa path
+            demo/target/surefire-reports/
+            demo/target/screenshots/
           retention-days: 30
