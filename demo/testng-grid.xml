@@ -1,0 +1,37 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Grid Suite" parallel="tests" thread-count="4">
+
+    <test name="Chrome Login">
+        <parameter name="browser" value="chrome"/>
+        <parameter name="env" value="dev"/>
+        <classes>
+            <class name="tests.LoginTest"/>
+        </classes>
+    </test>
+
+    <test name="Chrome Checkout">
+        <parameter name="browser" value="chrome"/>
+        <parameter name="env" value="dev"/>
+        <classes>
+            <class name="tests.CheckoutTest"/>
+        </classes>
+    </test>
+
+    <test name="Firefox Login">
+        <parameter name="browser" value="firefox"/>
+        <parameter name="env" value="dev"/>
+        <classes>
+            <class name="tests.LoginTest"/>
+        </classes>
+    </test>
+
+    <test name="Firefox Checkout">
+        <parameter name="browser" value="firefox"/>
+        <parameter name="env" value="dev"/>
+        <classes>
+            <class name="tests.CheckoutTest"/>
+        </classes>
+    </test>
+
+</suite>

@@ -1,6 +1,10 @@
 target/
-.idea/
-*.iml
-screenshots/
-.env
+node_modules/
 *.log
+*.class
+*.jar
+.DS_Store
+.idea/
+.vscode/
+System Volume Information/
+$RECYCLE.BIN/
