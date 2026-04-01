@@ -24,19 +24,21 @@ jobs:
 
       - name: Start Selenium Grid
         working-directory: demo
-        run: docker compose up -d
+        run: docker compose up -d --remove-orphans
 
       - name: Wait for Selenium Grid
         run: |
-          for i in {1..30}; do
+          for i in {1..72}; do
             if curl -sf http://localhost:4444/status | grep -q '"ready":true'; then
               echo "Selenium Grid is ready"
               exit 0
             fi
             echo "Waiting for Selenium Grid..."
+            docker compose -f demo/docker-compose.yml ps
             sleep 5
           done
           echo "Selenium Grid did not become ready in time"
+          docker compose -f demo/docker-compose.yml logs --no-color --tail 200
           docker compose -f demo/docker-compose.yml ps
           exit 1
 
