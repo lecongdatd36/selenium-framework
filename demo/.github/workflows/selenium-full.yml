@@ -3,14 +3,12 @@ name: Full Selenium CI Pipeline
 on:
   push:
     branches: [ main ]
-
+  workflow_dispatch:   # 👈 thêm cái này để hiện UI
   schedule:
     - cron: '0 2 * * 1-5'
 
 jobs:
-
   test:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -19,7 +17,6 @@ jobs:
       fail-fast: false
 
     steps:
-
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -28,10 +25,9 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: maven
 
       - name: Run Selenium Test
-        run: mvn clean test -Dbrowser=${{ matrix.browser }} -Dsurefire.suiteXmlFiles=testng.xml
+        run: mvn clean test -Dbrowser=${{ matrix.browser }}
 
       - name: Upload Allure Results
         if: always()
@@ -39,34 +35,3 @@ jobs:
         with:
           name: allure-results-${{ matrix.browser }}
           path: target/allure-results/
-
-
-  publish-report:
-
-    needs: test
-    if: always()
-    runs-on: ubuntu-latest
-
-    steps:
-
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Download Chrome Results
-        uses: actions/download-artifact@v4
-        with:
-          name: allure-results-chrome
-          path: allure-results/
-
-      - name: Download Firefox Results
-        uses: actions/download-artifact@v4
-        with:
-          name: allure-results-firefox
-          path: allure-results/
-
-      - name: Generate Allure Report
-        uses: simple-elf/allure-report-action@master
-        with:
-          allure_results: allure-results
-          gh_pages: gh-pages
-          allure_report: allure-report
