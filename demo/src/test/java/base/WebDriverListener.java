@@ -13,44 +13,17 @@ public class WebDriverListener implements ITestListener {
 
     @Override
     public void onTestStart(ITestResult result) {
-        // Initialize WebDriver before each test
-        Object testInstance = result.getInstance();
-        if (testInstance instanceof BaseTest) {
-            BaseTest baseTest = (BaseTest) testInstance;
-            try {
-                baseTest.setUp("chrome", "dev");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        // Lifecycle is handled by BaseTest @BeforeMethod.
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        // Clean up after test
-        Object testInstance = result.getInstance();
-        if (testInstance instanceof BaseTest) {
-            BaseTest baseTest = (BaseTest) testInstance;
-            try {
-                baseTest.tearDown(result);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        // Lifecycle is handled by BaseTest @AfterMethod.
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
-        // Clean up after test
-        Object testInstance = result.getInstance();
-        if (testInstance instanceof BaseTest) {
-            BaseTest baseTest = (BaseTest) testInstance;
-            try {
-                baseTest.tearDown(result);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        // Lifecycle is handled by BaseTest @AfterMethod.
     }
 
     @Override

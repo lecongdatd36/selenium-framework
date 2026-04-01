@@ -2,16 +2,13 @@ package base;
 
 import io.qameta.allure.Attachment;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
+import utils.DriverFactory;
 import utils.ConfigReader;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -43,43 +40,9 @@ public class BaseTest {
         System.out.println("Browser: " + browser);
         System.out.println("URL: " + url);
 
-        WebDriver webDriver;
+        WebDriver webDriver = DriverFactory.createDriver(browser);
 
-        try {
-
-            String gridUrl = System.getProperty("grid.url");
-
-            if (gridUrl == null) {
-                throw new RuntimeException("Grid URL khong ton tai");
-            }
-
-            System.out.println("Dang chay Selenium Grid: " + gridUrl);
-
-            if (browser.equalsIgnoreCase("firefox")) {
-
-                FirefoxOptions options = new FirefoxOptions();
-
-                webDriver = new RemoteWebDriver(
-                        new URL(gridUrl),
-                        options
-                );
-
-            } else {
-
-                ChromeOptions options = new ChromeOptions();
-
-                options.addArguments("--no-sandbox");
-                options.addArguments("--disable-dev-shm-usage");
-                options.addArguments("--window-size=1920,1080");
-
-                webDriver = new RemoteWebDriver(
-                        new URL(gridUrl),
-                        options);
-            }
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        System.out.println("Dang chay Selenium Grid: " + System.getProperty("grid.url", "http://localhost:4444"));
 
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(wait));
         webDriver.manage().window().maximize();

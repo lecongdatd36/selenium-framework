@@ -22,6 +22,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Start Selenium Grid
+        working-directory: demo
+        run: docker compose up -d
+
+      - name: Wait for Selenium Grid
+        run: |
+          for i in {1..30}; do
+            if curl -sf http://localhost:4444/status | grep -q '"ready":true'; then
+              echo "Selenium Grid is ready"
+              exit 0
+            fi
+            echo "Waiting for Selenium Grid..."
+            sleep 5
+          done
+          echo "Selenium Grid did not become ready in time"
+          docker compose -f demo/docker-compose.yml ps
+          exit 1
+
       - uses: actions/setup-java@v4
         with:
           java-version: '17'
@@ -29,7 +47,7 @@ jobs:
           cache: maven
 
       - name: Chay test
-        run: mvn -f demo/pom.xml clean test -Dbrowser=${{ matrix.browser }}
+        run: mvn -f demo/pom.xml clean test -Dbrowser=${{ matrix.browser }} -Dgrid.url=http://localhost:4444
         env:
           APP_USERNAME: ${{ secrets.SAUCEDEMO_USERNAME }}
           APP_PASSWORD: ${{ secrets.SAUCEDEMO_PASSWORD }}
