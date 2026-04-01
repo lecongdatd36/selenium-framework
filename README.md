@@ -6,6 +6,8 @@
 ## Mo ta
 Framework test tu dong su dung Selenium WebDriver.
 
+Ghi chu: cap nhat nhe de kich hoat GitHub Actions rerun.
+
 ## Cong nghe
 - Java
 - Selenium
