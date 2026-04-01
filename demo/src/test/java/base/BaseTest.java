@@ -22,10 +22,10 @@ public class BaseTest {
         return driver.get();
     }
 
-    @Parameters({"browser", "env"})
+    @Parameters({ "browser", "env" })
     @BeforeMethod
     public void setUp(@Optional("chrome") String browser,
-                      @Optional("dev") String env) {
+            @Optional("dev") String env) {
 
         System.setProperty("env", env);
 
