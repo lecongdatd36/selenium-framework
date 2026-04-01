@@ -31,7 +31,7 @@ jobs:
           cache: maven
 
       - name: Run Selenium Test
-        run: mvn clean test -Dbrowser=${{ matrix.browser }} -Dsurefire.suiteXmlFiles=testng-smoke.xml
+        run: mvn clean test -Dbrowser=${{ matrix.browser }} -Dsurefire.suiteXmlFiles=testng.xml
 
       - name: Upload Allure Results
         if: always()
