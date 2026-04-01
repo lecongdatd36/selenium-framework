@@ -1,13 +1,17 @@
 # Selenium Framework
 
-## Mô tả
-Framework test tự động sử dụng Selenium WebDriver.
+[![Test Status](https://github.com/lecongdatd36/selenium-framework/actions/workflows/selenium-full.yml/badge.svg)](https://github.com/lecongdatd36/selenium-framework/actions)
+[![Allure Report](https://img.shields.io/badge/Allure-Report-orange)](https://lecongdatd36.github.io/selenium-framework/)
 
-## Công nghệ
+## Mo ta
+Framework test tu dong su dung Selenium WebDriver.
+
+## Cong nghe
 - Java
 - Selenium
 - Maven
 
-## Chạy local
+## Chay local
 ```bash
-mvn clean test
+mvn -f demo/pom.xml clean test
+```
