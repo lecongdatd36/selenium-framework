@@ -29,7 +29,18 @@ jobs:
       - name: Wait for Selenium Grid
         run: |
           for i in {1..72}; do
-            if curl -sf http://localhost:4444/status | grep -q '"ready":true'; then
+            if python - <<'PY'
+import json
+import sys
+import urllib.request
+
+with urllib.request.urlopen('http://localhost:4444/status') as response:
+    payload = json.load(response)
+
+ready = payload.get('value', {}).get('ready', False)
+sys.exit(0 if ready else 1)
+PY
+            then
               echo "Selenium Grid is ready"
               exit 0
             fi
